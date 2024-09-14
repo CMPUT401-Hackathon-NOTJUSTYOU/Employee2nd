@@ -2,8 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+<<<<<<< HEAD
 :root {
   --background: #FF9E00;
+=======
+/* :root {
+  --background: #ffffff;
+>>>>>>> eaf078a61a5d7e93ab6b3c219977c769f14530d2
   --foreground: #171717;
 }
 
@@ -24,4 +29,4 @@ body {
   .text-balance {
     text-wrap: balance;
   }
-}
+} */
