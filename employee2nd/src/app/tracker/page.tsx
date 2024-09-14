@@ -60,11 +60,34 @@ const Tracker = () => {
     setApplications(updatedApps);
   };
 
+  const getStatusIcon = (status) => {
+    switch (status) {
+      case 'Applied':
+        return <CheckCircleIcon style={{ color: 'green', marginRight: 8 }} />;
+      case 'In Progress':
+        return <ConstructionIcon style={{ color: 'orange', marginRight: 8 }} />;
+      case 'Rejected':
+        return <CancelIcon style={{ color: 'red', marginRight: 8 }} />;
+      default:
+        return null;
+    }
+  };
+
   const columns = [
     { field: 'id', headerName: 'ID', width: 70 },
     { field: 'title', headerName: 'Title', width: 200 },
     { field: 'company', headerName: 'Company Name', width: 200 },
-    { field: 'status', headerName: 'Status', width: 120 },
+    {
+      field: 'status',
+      headerName: 'Status',
+      width: 160,
+      renderCell: (params) => (
+        <>
+          {getStatusIcon(params.value)}
+          {params.value}
+        </>
+      )
+    },
     { field: 'minPay', headerName: 'Min Pay', type: 'number', width: 120 },
     { field: 'maxPay', headerName: 'Max Pay', type: 'number', width: 120 },
     { field: 'location', headerName: 'Location', width: 150 },
