@@ -5,6 +5,11 @@ import { Dialog, DialogActions, DialogContent, DialogTitle, Button, TextField, S
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ConstructionIcon from '@mui/icons-material/Construction';
 import CancelIcon from '@mui/icons-material/Cancel';
+import UpcomingIcon from '@mui/icons-material/Upcoming';
+import PeopleIcon from '@mui/icons-material/People';
+
+
+
 
 const Tracker = () => {
   const [applications, setApplications] = useState([
@@ -68,6 +73,10 @@ const Tracker = () => {
         return <ConstructionIcon style={{ color: 'orange', marginRight: 8 }} />;
       case 'Rejected':
         return <CancelIcon style={{ color: 'red', marginRight: 8 }} />;
+      case 'Upcoming':
+        return <UpcomingIcon style={{ color: 'blue', marginRight: 8 }} />;
+      case 'Interview':
+        return <PeopleIcon style={{ color: 'grey', marginRight: 8 }} />;
       default:
         return null;
     }
@@ -137,6 +146,10 @@ const Tracker = () => {
               <MenuItem value="Applied"><CheckCircleIcon style={{ color: 'green' }} /> Applied</MenuItem>
               <MenuItem value="In Progress"><ConstructionIcon style={{ color: 'orange' }} /> In Progress</MenuItem>
               <MenuItem value="Rejected"><CancelIcon style={{ color: 'red' }} /> Rejected</MenuItem>
+              <MenuItem value="Upcoming"><UpcomingIcon style={{ color: 'blue' }} /> Upcoming</MenuItem>
+              <MenuItem value="Interview"><PeopleIcon style={{ color: 'grey' }} /> Interview</MenuItem>
+
+
             </Select>
           </FormControl>
           <TextField margin="dense" name="minPay" label="Min Pay" fullWidth variant="standard" type="number" value={newApp.minPay} onChange={handleChange}/>
