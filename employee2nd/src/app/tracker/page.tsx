@@ -157,7 +157,7 @@ const Tracker = () => {
       field: 'title',
       headerName: 'Title',
       width: 200,
-      flex: 1,
+      flex: 1.25,
       renderCell: (params) => (
         <>
           {getTitleIcon(params.value)}
@@ -210,6 +210,17 @@ const Tracker = () => {
         rowsPerPageOptions={[5]}
         checkboxSelection
         disableSelectionOnClick
+        sx={{
+          '& .MuiDataGrid-columnHeaders': {
+            backgroundColor: 'rgba(235, 235, 235, 0.7)',
+          },
+          '& .MuiDataGrid-columnHeaderTitle': {
+            fontWeight: 'bold', // Apply bold font weight to all column headers
+          },
+          '& .MuiDataGrid-cell': {
+            borderRight: '1px solid rgba(224, 224, 224, 1)'
+          }
+        }}
       />
 
       <Dialog open={open} onClose={handleClose}>
