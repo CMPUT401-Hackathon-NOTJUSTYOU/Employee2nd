@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import { Pie, Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, Title, Tooltip, Legend, ArcElement, BarElement, CategoryScale, LinearScale } from 'chart.js';
 import type { TooltipItem, ChartOptions } from 'chart.js';
@@ -39,7 +39,7 @@ export default function Home() {
     responsive: true,
     plugins: {
       legend: {
-        position: 'top' as const,
+        position: 'bottom' as const, // Change legend position to bottom
         labels: {
           color: '#000000', // Change legend text color to black
         },
@@ -120,15 +120,25 @@ export default function Home() {
 
   return (
     <div className="flex flex-col items-center min-h-screen p-8 space-y-8">
+      {/* Title of the webpage */}
+      
+      {/* Welcome text below the title */}
+      <div className="mt-2">
+        <h2 className="text-2xl font-medium text-gray-800">Welcome!</h2>
+      </div>
+
       <div className="flex justify-between w-full max-w-screen-lg space-x-8">
-        <div style={{ width: '400px', height: '400px' }}>
+        <div style={{ width: '400px', height: '400px', marginRight: '60px', marginLeft: '10px', marginTop: '50px' }}>
           <Pie data={pieData} options={pieOptions} />
         </div>
-        <div className="flex justify-center items-center" style={{ width: '700px', height: '500px' }}>
+        <div className="flex justify-center items-center" style={{ width: '700px', height: '500px', marginTop: '0px' }}>
           <Bar data={barData} options={barOptions} />
         </div>
       </div>
       <div className="w-full overflow-x-auto">
+        <div className="flex items-center mb-4">
+          <h2 className="text-xl font-bold text-gray-900">Job Application Status</h2>
+        </div>
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-blue-200">
             <tr>
