@@ -122,7 +122,7 @@ export default function Home() {
       date: '2024-08-15', 
       type: 'Interview', 
       position: 'Software Engineer', 
-      company: 'Company A', 
+      company: 'Product Hub', 
       format: 'Online', 
       progress: 'In Progress' 
     },
@@ -130,7 +130,7 @@ export default function Home() {
       date: '2024-08-20', 
       type: 'Offer', 
       position: 'Data Scientist', 
-      company: 'Company B', 
+      company: 'Quantum Byte Solutions', 
       format: 'In Person', 
       progress: 'Accepted' 
     },
@@ -138,7 +138,7 @@ export default function Home() {
       date: '2024-07-30', 
       type: 'Interview', 
       position: 'UX Designer', 
-      company: 'Company C', 
+      company: 'NexaTech Innovations', 
       format: 'Online', 
       progress: 'Rejected' 
     },
@@ -146,7 +146,7 @@ export default function Home() {
       date: '2024-09-05', 
       type: 'Online Assessment', 
       position: 'Project Manager', 
-      company: 'Company D', 
+      company: 'CloudForge Systems', 
       format: 'N/A', 
       progress: 'Upcoming' 
     },
