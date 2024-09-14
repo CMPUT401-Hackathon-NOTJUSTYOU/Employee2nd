@@ -1,28 +1,83 @@
-'use client';
+'use client'
 import React, { useState } from 'react';
 
+// Define a type for the categories and their associated resumes
+type ResumeCategory = 'Data Analytics' | 'Data Science' | 'Software Development' | 'Machine Learning' | 'DevOps';
+
+interface Resume {
+  name: string;
+  date: string;
+  link: string; // Adding a link field for the Google Docs URL
+}
+
 const ResumeManagement = () => {
+  // Use Record type to ensure that the keys are of type ResumeCategory
+  const [resumes, setResumes] = useState<Record<ResumeCategory, Resume[]>>({
+    'Data Analytics': [],
+    'Data Science': [],
+    'Software Development': [],
+    'Machine Learning': [],
+    DevOps: [],
+  });
+
   const [showModal, setShowModal] = useState(false);
   const [resumeFileName, setResumeFileName] = useState('');
-  const [resumeCategory, setResumeCategory] = useState('Data Analytics');
+  const [resumeCategory, setResumeCategory] = useState<ResumeCategory>('Data Analytics');
 
-  const categories = [
-    'Data Analytics',
-    'Data Science',
-    'Software Development',
-    'Machine Learning',
-    'DevOps',
-  ];
+  const categories: ResumeCategory[] = ['Data Analytics', 'Data Science', 'Software Development', 'Machine Learning', 'DevOps'];
 
+  // Function to handle adding a new resume
   const handleAddResumeClick = () => {
     setShowModal(true);
   };
 
+  // Function to handle saving the new resume
   const handleSave = () => {
-    // Handle the logic for saving the new resume file and category
-    console.log('Resume File Name:', resumeFileName);
-    console.log('Resume Category:', resumeCategory);
-    setShowModal(false); // Close the modal after saving
+    if (resumeFileName) {
+      const newDocId = Math.random().toString(36).substring(2, 15); // Generate a random document ID
+      const newResume: Resume = {
+        name: resumeFileName,
+        date: new Date().toLocaleDateString(),
+        link: `https://docs.google.com/document/d/${newDocId}/edit`, // Simulate a Google Docs link
+      };
+
+      setResumes((prevResumes) => {
+        const updatedCategory = [...prevResumes[resumeCategory]];
+
+        // Add new resume version at the beginning of the array
+        updatedCategory.unshift(newResume);
+
+        // Keep only the most recent 5 versions
+        if (updatedCategory.length > 5) {
+          updatedCategory.pop();
+        }
+
+        return {
+          ...prevResumes,
+          [resumeCategory]: updatedCategory,
+        };
+      });
+
+      // Clear the input fields and close the modal
+      setResumeFileName('');
+      setResumeCategory('Data Analytics');
+      setShowModal(false);
+    }
+  };
+
+  // Function to handle deleting a resume
+  const handleDelete = (category: ResumeCategory, index: number) => {
+    setResumes((prevResumes) => {
+      const updatedCategory = [...prevResumes[category]];
+
+      // Remove the resume at the specified index
+      updatedCategory.splice(index, 1);
+
+      return {
+        ...prevResumes,
+        [category]: updatedCategory,
+      };
+    });
   };
 
   return (
@@ -33,7 +88,7 @@ const ResumeManagement = () => {
       <div className="mb-8">
         <h2 className="text-xl font-semibold">Master Resume</h2>
         <p>
-          <a href="#" className="text-blue-500 underline">
+          <a href="https://docs.google.com/document/d/1eQKdQlImbWRIpRXKV5OqAnFHsIDXBMeJM3qHJfCqXHw/edit?usp=sharing" className="text-blue-500 underline">
             Download Master Resume
           </a>
         </p>
@@ -51,15 +106,28 @@ const ResumeManagement = () => {
           </button>
         </div>
 
-        {/* Subsections for Tailored Resumes */}
+        {/* Subsections for Tailored Resumes with multiple versions */}
         {categories.map((category) => (
-          <div key={category} className="mb-4">
-            <h3 className="text-lg font-medium">{category}</h3>
-            <p>
-              <a href="#" className="text-blue-500 underline">
-                Download {category} Resume
-              </a>
-            </p>
+          <div key={category} className="mb-6">
+            <h3 className="text-lg font-medium mb-2">{category}</h3>
+            {resumes[category].length > 0 ? (
+              resumes[category].map((resume, index) => (
+                <div key={index} className="mb-2 flex justify-between items-center">
+                  <a href={resume.link} className="text-blue-500 underline" target="_blank" rel="noopener noreferrer">
+                    {resume.name} - {resume.date}
+                  </a>
+                  {/* Delete button */}
+                  <button
+                    onClick={() => handleDelete(category, index)}
+                    className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-400"
+                  >
+                    Delete
+                  </button>
+                </div>
+              ))
+            ) : (
+              <p className="text-sm text-gray-500">No resumes yet</p>
+            )}
           </div>
         ))}
       </div>
@@ -83,7 +151,7 @@ const ResumeManagement = () => {
               <select
                 className="border rounded-lg p-2 w-full"
                 value={resumeCategory}
-                onChange={(e) => setResumeCategory(e.target.value)}
+                onChange={(e) => setResumeCategory(e.target.value as ResumeCategory)}
               >
                 {categories.map((category) => (
                   <option key={category} value={category}>
