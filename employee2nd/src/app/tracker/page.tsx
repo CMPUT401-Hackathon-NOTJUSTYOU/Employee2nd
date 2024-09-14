@@ -7,6 +7,20 @@ import { Dialog, DialogActions, DialogContent, DialogTitle, Button, TextField, S
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ConstructionIcon from '@mui/icons-material/Construction';
 import CancelIcon from '@mui/icons-material/Cancel';
+import UpcomingIcon from '@mui/icons-material/Upcoming'
+import PeopleIcon from '@mui/icons-material/People'
+import DeveloperModeIcon from '@mui/icons-material/DeveloperMode'
+import ComputerIcon from '@mui/icons-material/Computer'
+import BusinessCenterIcon from '@mui/icons-material/BusinessCenter'
+import FunctionsIcon from '@mui/icons-material/Functions'
+import InsightsIcon from '@mui/icons-material/Insights'
+import CloudIcon from '@mui/icons-material/Cloud'
+import SmartToyIcon from '@mui/icons-material/SmartToy'
+import SecurityIcon from '@mui/icons-material/Security'
+import LayersIcon from '@mui/icons-material/Layers'
+import LanguageIcon from '@mui/icons-material/Language'
+import DesignServicesIcon from '@mui/icons-material/DesignServices'
+
 
 const Tracker = () => {
   const [applications, setApplications] = useState([
@@ -153,7 +167,7 @@ const Tracker = () => {
   ];
 
   return (
-    <div style={{ height: 400, width: '100%' }}>
+    <div style={{ height: 700, width: '100%' }}>
       <Button onClick={handleOpen} style={{ marginBottom: 16 }}>Add New Application</Button>
       <DataGrid
         rows={applications}
