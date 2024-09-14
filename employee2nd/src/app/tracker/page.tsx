@@ -65,7 +65,7 @@ const Tracker = () => {
 
   const buttonStyle = {
     display: 'block',
-    margin: '0 auto',
+    // margin: '0 auto',
     marginBottom: 16,
     marginTop: 20,
     backgroundColor: '#000000', // Blue color (Material-UI primary blue)
@@ -74,6 +74,22 @@ const Tracker = () => {
       backgroundColor: '#115293', // Darker blue on hover
     }
   }
+  const h1Style = {
+    fontFamily: '"Roboto", sans-serif',
+    fontSize: '2.5rem',
+    fontWeight: 'bold',
+    color: '#333', // Dark gray color for professionalism
+    marginBottom: '1rem',
+  };
+
+  const h2Style = {
+    fontFamily: '"Roboto", sans-serif',
+    fontSize: '1.5rem',
+    fontWeight: 'normal',
+    color: '#666', // Medium gray color for secondary text
+    marginBottom: '2rem',
+  };
+
 
   const addApplication = () => {
     const newApplication = { ...newApp, id: applications.length + 1 };
@@ -179,7 +195,9 @@ const Tracker = () => {
   ];
 
   return (
-    <div style={{ height: 700, width: '100%' }}>
+    <div style={{ height: '100%', width: '100%', paddingLeft: 80, paddingRight: 25, paddingTop:25 }}>
+      <h1 style={h1Style}> Application Tracker </h1>
+      <h2 style={h2Style}> Organize all your application history and information below!</h2>
       <Button style={buttonStyle} onClick={handleOpen}>Add New Application</Button>
       <DataGrid
         rows={applications}
