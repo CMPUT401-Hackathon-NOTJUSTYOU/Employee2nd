@@ -1,17 +1,15 @@
-'use client'
-import React, { useState } from 'react';
+'use client';
+import React, { useState, useEffect } from 'react';
 
-// Define a type for the categories and their associated resumes
 type ResumeCategory = 'Data Analytics' | 'Data Science' | 'Software Development' | 'Machine Learning' | 'DevOps';
 
 interface Resume {
   name: string;
   date: string;
-  link: string; // Adding a link field for the Google Docs URL
+  link: string;
 }
 
 const ResumeManagement = () => {
-  // Use Record type to ensure that the keys are of type ResumeCategory
   const [resumes, setResumes] = useState<Record<ResumeCategory, Resume[]>>({
     'Data Analytics': [],
     'Data Science': [],
@@ -19,60 +17,122 @@ const ResumeManagement = () => {
     'Machine Learning': [],
     DevOps: [],
   });
-
+  
   const [showModal, setShowModal] = useState(false);
   const [resumeFileName, setResumeFileName] = useState('');
   const [resumeCategory, setResumeCategory] = useState<ResumeCategory>('Data Analytics');
+  const [masterResumeLink, setMasterResumeLink] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const categories: ResumeCategory[] = ['Data Analytics', 'Data Science', 'Software Development', 'Machine Learning', 'DevOps'];
+
+  // Function to start Google OAuth flow
+  // const startOAuthFlow = async () => {
+  //   try {
+  //     const response = await fetch('/api/get-google-auth-url');
+  //     if (response.redirected) {
+  //       window.location.href = response.url;
+  //     }
+  //   } catch (error) {
+  //     setError('Failed to initiate Google authentication.');
+  //     console.error('Error starting OAuth flow:', error);
+  //   }
+  // };
+
+  const startOAuthFlow = () => {
+    window.location.href = '/api/get-google-auth-url';
+  };
+  
+  // Function to fetch the "Master Resume" from Google Drive
+  const fetchMasterResume = async () => {
+    setLoading(true);
+    setError(null);
+  
+    try {
+      // No need to pass tokens explicitly since they are stored in cookies and will be sent automatically
+      const response = await fetch('/api/search-google-drive?fileName=Master Resume');
+      const data = await response.json();
+  
+      if (response.ok && data.url) {
+        setMasterResumeLink(data.url); // Set the master resume link
+      } else {
+        throw new Error(data.error || 'File not found');
+      }
+    } catch (error) {
+      setError((error as Error).message);
+    } finally {
+      setLoading(false);
+    }
+  };
+  
 
   // Function to handle adding a new resume
   const handleAddResumeClick = () => {
     setShowModal(true);
   };
 
-  // Function to handle saving the new resume
-  const handleSave = () => {
+  const handleSave = async () => {
     if (resumeFileName) {
-      const newDocId = Math.random().toString(36).substring(2, 15); // Generate a random document ID
-      const newResume: Resume = {
-        name: resumeFileName,
-        date: new Date().toLocaleDateString(),
-        link: `https://docs.google.com/document/d/${newDocId}/edit`, // Simulate a Google Docs link
-      };
-
-      setResumes((prevResumes) => {
-        const updatedCategory = [...prevResumes[resumeCategory]];
-
-        // Add new resume version at the beginning of the array
-        updatedCategory.unshift(newResume);
-
-        // Keep only the most recent 5 versions
-        if (updatedCategory.length > 5) {
-          updatedCategory.pop();
+      try {
+        // Call the API to copy the Master Resume and rename it
+        const response = await fetch('/api/copy-master-resume', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ newFileName: resumeFileName }),
+        });
+  
+        const data = await response.json();
+  
+        if (response.ok) {
+          // Add the new copied file as a resume entry
+          const newResume: Resume = {
+            name: resumeFileName,
+            date: new Date().toLocaleDateString(),
+            link: `https://docs.google.com/document/d/${data.newFileId}/edit`, // Link to the new copied file
+          };
+  
+          setResumes((prevResumes) => {
+            const updatedCategory = [...prevResumes[resumeCategory]];
+  
+            // Add the new resume version at the beginning of the array
+            updatedCategory.unshift(newResume);
+  
+            // Keep only the most recent 5 versions
+            if (updatedCategory.length > 5) {
+              updatedCategory.pop();
+            }
+  
+            return {
+              ...prevResumes,
+              [resumeCategory]: updatedCategory,
+            };
+          });
+  
+          // Open the new Google Docs file in a new tab
+          window.open(`https://docs.google.com/document/d/${data.newFileId}/edit`, '_blank');
+  
+          // Clear the input fields and close the modal
+          setResumeFileName('');
+          setResumeCategory('Data Analytics');
+          setShowModal(false);
+        } else {
+          throw new Error(data.error || 'Failed to copy and rename the file');
         }
-
-        return {
-          ...prevResumes,
-          [resumeCategory]: updatedCategory,
-        };
-      });
-
-      // Clear the input fields and close the modal
-      setResumeFileName('');
-      setResumeCategory('Data Analytics');
-      setShowModal(false);
+      } catch (error) {
+        console.error('Error saving resume:', error);
+        setError('Failed to copy and rename the file');
+      }
     }
   };
+  
 
-  // Function to handle deleting a resume
   const handleDelete = (category: ResumeCategory, index: number) => {
     setResumes((prevResumes) => {
       const updatedCategory = [...prevResumes[category]];
-
-      // Remove the resume at the specified index
       updatedCategory.splice(index, 1);
-
       return {
         ...prevResumes,
         [category]: updatedCategory,
@@ -87,11 +147,34 @@ const ResumeManagement = () => {
       {/* Master Resume Section */}
       <div className="mb-8">
         <h2 className="text-xl font-semibold">Master Resume</h2>
-        <p>
-          <a href="https://docs.google.com/document/d/1eQKdQlImbWRIpRXKV5OqAnFHsIDXBMeJM3qHJfCqXHw/edit?usp=sharing" className="text-blue-500 underline">
-            Download Master Resume
-          </a>
-        </p>
+        {loading ? (
+          <p>Loading...</p>
+        ) : error ? (
+          <p className="text-red-500">{error}</p>
+        ) : (
+          <p>
+            {masterResumeLink ? (
+              <a href={masterResumeLink} className="text-blue-500 underline" target="_blank" rel="noopener noreferrer">
+                Download Master Resume
+              </a>
+            ) : (
+              <>
+                <button
+                  onClick={fetchMasterResume}
+                  className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-500"
+                >
+                  Load Master Resume
+                </button>
+                <button
+                  onClick={startOAuthFlow} // New button to start Google authentication
+                  className="ml-4 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-500"
+                >
+                  Authenticate with Google
+                </button>
+              </>
+            )}
+          </p>
+        )}
       </div>
 
       {/* Tailored Resumes Section */}
