@@ -1,6 +1,22 @@
 import React from 'react';
 import { DataGrid,GridRowsProp,GridColDef } from '@mui/x-data-grid'; 
 
+const h1Style = {
+  fontFamily: '"Roboto", sans-serif',
+  fontSize: '2.5rem',
+  fontWeight: 'bold',
+  color: '#333', // Dark gray color for professionalism
+  marginBottom: '1rem',
+};
+
+const h2Style = {
+  fontFamily: '"Roboto", sans-serif',
+  fontSize: '1.5rem',
+  fontWeight: 'normal',
+  color: '#666', // Medium gray color for secondary text
+  marginBottom: '2rem',
+};
+
 const rows: GridRowsProp = [
   { id: 1, col1: 'Interview', col2: 'Frontend Developer', col3: 'Company A', col4: 'In-person', col5: '2023-09-10' },
   { id: 2, col1: 'Rejected', col2: 'Backend Developer', col3: 'Company B', col4: 'N/A', col5: '2023-09-08' },
@@ -25,8 +41,9 @@ const columns: GridColDef[] = [
 
 const Responses = () => {
   return (
-    <div className="container mx-auto p-8">
-      <h1 className="text-2xl font-bold mb-4">Responses</h1>
+    <div className="container mx-auto p-8" >
+      <h1 style={h1Style}> Response Tracker </h1>
+      <h2 style={h2Style}> Manage all your response information below!</h2>
       <p>This is the page where you can manage your responses.</p>
       {/* You can include your resume management functionality here */}
       <DataGrid rows={rows} columns={columns} />
