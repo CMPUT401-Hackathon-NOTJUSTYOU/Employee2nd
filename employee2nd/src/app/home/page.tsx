@@ -10,26 +10,26 @@ ChartJS.register(Title, Tooltip, Legend, ArcElement, BarElement, CategoryScale, 
 export default function Home() {
   // Sample data for the Pie chart
   const pieData = {
-    labels: ['Rejected', 'In Progress', 'Accepted', 'Up Coming', 'Interview'],
+    labels: ['Rejected', 'In Review', 'Accepted', 'Update Received', 'Interview Phase'],
     datasets: [
       {
         label: 'Sample Pie Chart',
         data: [12, 19, 3, 5, 2],
         backgroundColor: [
-          '#CC0A0A',
-          '#861657',
-          '#3DB522',
-          '#2266B4',
-          '#FFFF00',
+          '#F7B801',
+          '#F35B04',
+          '#F18701',
+          '#7678ED',
+          '#3D348B',
         ],
         borderColor: [
-          '#000000',
-          '#000000',
-          '#000000',
-          '#000000',
-          '#000000',
+          '#FFFFFF',
+          '#FFFFFF',
+          '#FFFFFF',
+          '#FFFFFF',
+          '#FFFFFF',
         ],
-        borderWidth: 1,
+        borderWidth: 3,
       },
     ],
   };
@@ -39,7 +39,7 @@ export default function Home() {
     responsive: true,
     plugins: {
       legend: {
-        position: 'bottom' as const, // Change legend position to bottom
+        position: 'right' as const, // Change legend position to bottom
         labels: {
           color: '#000000', // Change legend text color to black
         },
@@ -51,7 +51,7 @@ export default function Home() {
             return value.toString(); // Show only the number
           },
         },
-        titleColor: '#000000',
+        titleColor: '#FFFFFF',
         bodyColor: '#FFFFFF', // Change tooltip body text color to white
       },
     },
@@ -59,7 +59,7 @@ export default function Home() {
 
   // Sample data for the Histogram
   const barData = {
-    labels: ['Cyber Security', 'Software Engineering', 'Dev Ops', 'Full Stack', 'ML', 'AI'],
+    labels: ['Cyber Security', 'Software Engineering', 'Dev Ops', 'Full Stack', 'ML', 'Product'],
     datasets: [
       {
         label: 'Field Distribution',
@@ -72,7 +72,7 @@ export default function Home() {
           '#4169E1', // RoyalBlue
           '#6495ED', // CornflowerBlue
         ],
-        borderColor: '#000000',
+        borderColor: '#FFFFFF',
         borderWidth: 1,
       },
     ],
@@ -112,10 +112,38 @@ export default function Home() {
 
   // Sample job data for the table
   const jobData = [
-    { company: 'Company A', position: 'Software Engineer', progress: 'In Progress' },
-    { company: 'Company B', position: 'Data Scientist', progress: 'Accepted' },
-    { company: 'Company C', position: 'UX Designer', progress: 'Rejected' },
-    { company: 'Company D', position: 'Project Manager', progress: 'Up Coming' },
+    { 
+      date: '2024-08-15', 
+      type: 'Interview', 
+      position: 'Software Engineer', 
+      company: 'Company A', 
+      format: 'Online', 
+      progress: 'In Progress' 
+    },
+    { 
+      date: '2024-08-20', 
+      type: 'Offer', 
+      position: 'Data Scientist', 
+      company: 'Company B', 
+      format: 'In Person', 
+      progress: 'Accepted' 
+    },
+    { 
+      date: '2024-07-30', 
+      type: 'Interview', 
+      position: 'UX Designer', 
+      company: 'Company C', 
+      format: 'Online', 
+      progress: 'Rejected' 
+    },
+    { 
+      date: '2024-09-05', 
+      type: 'Online Assessment', 
+      position: 'Project Manager', 
+      company: 'Company D', 
+      format: 'N/A', 
+      progress: 'Upcoming' 
+    },
   ];
 
   return (
@@ -128,31 +156,36 @@ export default function Home() {
       </div>
 
       <div className="flex justify-between w-full max-w-screen-lg space-x-8">
-        <div style={{ width: '400px', height: '400px', marginRight: '60px', marginLeft: '10px', marginTop: '50px' }}>
+        <div style={{ width: '400px', height: '400px', marginRight: '0px', marginLeft: '0px', marginTop: '-80px' }}>
           <Pie data={pieData} options={pieOptions} />
         </div>
-        <div className="flex justify-center items-center" style={{ width: '700px', height: '500px', marginTop: '0px' }}>
+        <div className="flex justify-center items-center" style={{ width: '500px', height: '400px', marginTop: '-70px' }}>
           <Bar data={barData} options={barOptions} />
         </div>
       </div>
-      <div className="w-full overflow-x-auto">
+      <div className="w-full overflow-x-auto container mx-auto p-8" style={{marginTop: "-50px", marginBottom: "20px"}}>
         <div className="flex items-center mb-4">
-          <h2 className="text-xl font-bold text-gray-900">Job Application Status</h2>
+          <h2 className="text-xl font-bold text-gray-900">Upcoming</h2>
         </div>
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-blue-200">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-blue-800 uppercase tracking-wider">Company</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-blue-800 uppercase tracking-wider">Date</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-blue-800 uppercase tracking-wider">Type</th>
               <th className="px-6 py-3 text-left text-xs font-medium text-blue-800 uppercase tracking-wider">Position</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-blue-800 uppercase tracking-wider">Progress</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-blue-800 uppercase tracking-wider">Company</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-blue-800 uppercase tracking-wider">Format</th>
+
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
             {jobData.map((job, index) => (
               <tr key={index}>
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{job.company}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{job.position}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{job.progress}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{job.date}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{job.type}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{job.position}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{job.company}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{job.format}</td>
               </tr>
             ))}
           </tbody>
