@@ -8,7 +8,7 @@ const Navbar = () => {
         <h1 className="text-white text-3xl font-bold tracking-wider">Job Tracker</h1>
         <ul className="flex space-x-8 text-lg">
           <li>
-            <Link href="/" className="text-white hover:bg-indigo-500 px-4 py-2 rounded transition duration-300 ease-in-out">
+            <Link href="/home" className="text-white hover:bg-indigo-500 px-4 py-2 rounded transition duration-300 ease-in-out">
               Home
             </Link>
           </li>
