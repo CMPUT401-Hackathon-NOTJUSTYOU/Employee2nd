@@ -2,6 +2,7 @@
 import { Pie, Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, Title, Tooltip, Legend, ArcElement, BarElement, CategoryScale, LinearScale } from 'chart.js';
 import type { TooltipItem, ChartOptions } from 'chart.js';
+import React from 'react';
 
 // Register the components required for the Pie chart and Histogram
 ChartJS.register(Title, Tooltip, Legend, ArcElement, BarElement, CategoryScale, LinearScale);
@@ -9,18 +10,20 @@ ChartJS.register(Title, Tooltip, Legend, ArcElement, BarElement, CategoryScale, 
 export default function Home() {
   // Sample data for the Pie chart
   const pieData = {
-    labels: ['Rejected', 'In Progress', 'Accepted', 'Up Coming'],
+    labels: ['Rejected', 'In Progress', 'Accepted', 'Up Coming', 'Interview'],
     datasets: [
       {
         label: 'Sample Pie Chart',
-        data: [12, 19, 3, 5],
+        data: [12, 19, 3, 5, 2],
         backgroundColor: [
           '#CC0A0A',
           '#861657',
           '#3DB522',
           '#2266B4',
+          '#FFFF00',
         ],
         borderColor: [
+          '#000000',
           '#000000',
           '#000000',
           '#000000',
@@ -107,13 +110,43 @@ export default function Home() {
     },
   };
 
+  // Sample job data for the table
+  const jobData = [
+    { company: 'Company A', position: 'Software Engineer', progress: 'In Progress' },
+    { company: 'Company B', position: 'Data Scientist', progress: 'Accepted' },
+    { company: 'Company C', position: 'UX Designer', progress: 'Rejected' },
+    { company: 'Company D', position: 'Project Manager', progress: 'Up Coming' },
+  ];
+
   return (
-    <div className="flex justify-start items-center min-h-screen p-8 space-x-8">
-      <div style={{ width: '400px', height: '400px' }}>
-        <Pie data={pieData} options={pieOptions} />
+    <div className="flex flex-col items-center min-h-screen p-8 space-y-8">
+      <div className="flex justify-between w-full max-w-screen-lg space-x-8">
+        <div style={{ width: '400px', height: '400px' }}>
+          <Pie data={pieData} options={pieOptions} />
+        </div>
+        <div className="flex justify-center items-center" style={{ width: '700px', height: '500px' }}>
+          <Bar data={barData} options={barOptions} />
+        </div>
       </div>
-      <div style={{ width: '500px', height: '700px' }}>
-        <Bar data={barData} options={barOptions} />
+      <div className="w-full overflow-x-auto">
+        <table className="min-w-full divide-y divide-gray-200">
+          <thead className="bg-gray-50">
+            <tr>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Company</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Position</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Progress</th>
+            </tr>
+          </thead>
+          <tbody className="bg-white divide-y divide-gray-200">
+            {jobData.map((job, index) => (
+              <tr key={index}>
+                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{job.company}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{job.position}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{job.progress}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );
