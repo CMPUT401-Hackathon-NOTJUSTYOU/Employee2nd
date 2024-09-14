@@ -35,8 +35,13 @@ const Tracker = () => {
   };
 
   const deleteApplication = (id) => {
-    setApplications(applications.filter(app => app.id !== id));
-  };
+    // First, filter out the application to be deleted
+    const filteredApps = applications.filter(app => app.id !== id);
+    // Then, reassign IDs to ensure they remain sequential
+    const updatedApps = filteredApps.map((app, index) => ({ ...app, id: index + 1 }));
+    setApplications(updatedApps);
+};
+
 
 
 const columns = [
