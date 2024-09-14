@@ -63,6 +63,18 @@ const Tracker = () => {
     setNewApp({ ...newApp, [e.target.name]: e.target.value });
   };
 
+  const buttonStyle = {
+    display: 'block',
+    margin: '0 auto',
+    marginBottom: 16,
+    marginTop: 20,
+    backgroundColor: '#000000', // Blue color (Material-UI primary blue)
+    color: '#fff', // White text color
+    '&:hover': {
+      backgroundColor: '#115293', // Darker blue on hover
+    }
+  }
+
   const addApplication = () => {
     const newApplication = { ...newApp, id: applications.length + 1 };
     setApplications([...applications, newApplication]);
@@ -168,7 +180,7 @@ const Tracker = () => {
 
   return (
     <div style={{ height: 700, width: '100%' }}>
-      <Button onClick={handleOpen} style={{ marginBottom: 16 }}>Add New Application</Button>
+      <Button style={buttonStyle} onClick={handleOpen}>Add New Application</Button>
       <DataGrid
         rows={applications}
         columns={columns}
