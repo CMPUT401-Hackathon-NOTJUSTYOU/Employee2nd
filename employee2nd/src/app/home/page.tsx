@@ -109,7 +109,13 @@ export default function Home() {
       },
     },
   };
-
+  const h1Style = {
+    fontFamily: '"Roboto", sans-serif',
+    fontSize: '2.5rem',
+    fontWeight: 'bold',
+    color: '#333', // Dark gray color for professionalism
+    marginBottom: '1rem',
+  };
   // Sample job data for the table
   const jobData = [
     { 
@@ -152,7 +158,10 @@ export default function Home() {
       
       {/* Welcome text below the title */}
       <div className="mt-2">
-        <h2 className="text-2xl font-medium text-gray-800">Welcome!</h2>
+        <h2 className="text-2xl font-medium text-gray-800" style = {h1Style}>Welcome!</h2>
+      </div>
+      <div className="flex items-center mb-4">
+          <h2 className="text-xl font-bold text-gray-900" style={{fontFamily: '"Roboto", sans-serif', fontSize: '1.5rem', fontWeight: 'bold', paddingTop:"-10px", marginLeft:"-600px"}}>Application Summary</h2>
       </div>
 
       <div className="flex justify-between w-full max-w-screen-lg space-x-8">
@@ -165,7 +174,7 @@ export default function Home() {
       </div>
       <div className="w-full overflow-x-auto container mx-auto p-8" style={{marginTop: "-50px", marginBottom: "20px"}}>
         <div className="flex items-center mb-4">
-          <h2 className="text-xl font-bold text-gray-900">Upcoming</h2>
+          <h2 className="text-xl font-bold text-gray-900" style={{fontFamily: '"Roboto", sans-serif', fontSize: '1.5rem', fontWeight: 'bold',}}>Upcoming</h2>
         </div>
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-blue-200">
