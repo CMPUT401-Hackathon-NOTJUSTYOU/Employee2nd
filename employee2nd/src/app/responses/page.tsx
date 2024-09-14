@@ -17,6 +17,7 @@ const h2Style = {
   marginBottom: '2rem',
 };
 
+
 const rows: GridRowsProp = [
   { id: 1, col1: 'Interview', col2: 'Frontend Developer', col3: 'Company A', col4: 'In-person', col5: '2023-09-10' },
   { id: 2, col1: 'Rejected', col2: 'Backend Developer', col3: 'Company B', col4: 'N/A', col5: '2023-09-08' },
