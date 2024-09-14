@@ -20,6 +20,7 @@ import SecurityIcon from '@mui/icons-material/Security'
 import LayersIcon from '@mui/icons-material/Layers'
 import LanguageIcon from '@mui/icons-material/Language'
 import DesignServicesIcon from '@mui/icons-material/DesignServices'
+import DeleteIcon from '@mui/icons-material/Delete'
 
 
 const Tracker = () => {
@@ -151,11 +152,12 @@ const Tracker = () => {
   };
 
   const columns = [
-    { field: 'id', headerName: 'ID', width: 70 },
+    { field: 'id', headerName: 'ID', width: 70, flex: 0.5 },
     {
       field: 'title',
       headerName: 'Title',
       width: 200,
+      flex: 1,
       renderCell: (params) => (
         <>
           {getTitleIcon(params.value)}
@@ -163,11 +165,12 @@ const Tracker = () => {
         </>
       ),
     },
-    { field: 'company', headerName: 'Company Name', width: 200 },
+    { field: 'company', headerName: 'Company Name', width: 200, flex: 1},
     {
       field: 'status',
       headerName: 'Status',
       width: 160,
+      flex: 1,
       renderCell: (params) => (
         <>
           {getStatusIcon(params.value)}
@@ -175,10 +178,10 @@ const Tracker = () => {
         </>
       ),
     },
-    { field: 'minPay', headerName: 'Min Pay', type: 'number', width: 120 },
-    { field: 'maxPay', headerName: 'Max Pay', type: 'number', width: 120 },
-    { field: 'location', headerName: 'Location', width: 150 },
-    { field: 'date', headerName: 'Date Applied', width: 150 },
+    { field: 'minPay', headerName: 'Min Pay', type: 'number', align: 'left', headerAlign: 'left', flex: 1, renderCell: (params) => `$ ${params.value.toLocaleString()}` },
+    { field: 'maxPay', headerName: 'Max Pay', type: 'number', align: 'left', headerAlign: 'left' , flex: 1, renderCell: (params) => `$ ${params.value.toLocaleString()}` },
+    { field: 'location', headerName: 'Location', flex: 1 },
+    { field: 'date', headerName: 'Date Applied', flex: 1 },
     {
       field: 'actions',
       type: 'actions',
@@ -186,16 +189,17 @@ const Tracker = () => {
       width: 100,
       getActions: (params) => [
         <GridActionsCellItem
-          icon={<Button color="error">Delete</Button>}
+          icon={<DeleteIcon color="error" onClick={() => deleteApplication(params.id)}><DeleteIcon /></DeleteIcon>}
           label="Delete"
-          onClick={() => deleteApplication(params.id)}
         />,
       ],
     },
   ];
 
+
   return (
-    <div style={{ height: '100%', width: '100%', paddingLeft: 80, paddingRight: 25, paddingTop:25 }}>
+  //  <div style={{ height: '100%', width: '100%', paddingLeft: 80, paddingRight: 25, paddingTop:25 }}>
+      <div className="container mx-auto p-8" >
       <h1 style={h1Style}> Application Tracker </h1>
       <h2 style={h2Style}> Organize all your application history and information below!</h2>
       <Button style={buttonStyle} onClick={handleOpen}>Add New Application</Button>
