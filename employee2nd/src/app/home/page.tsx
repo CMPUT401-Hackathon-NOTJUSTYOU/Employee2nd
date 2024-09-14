@@ -1,59 +1,120 @@
-import React from 'react';
+'use client'
+import { Pie, Bar } from 'react-chartjs-2';
+import { Chart as ChartJS, Title, Tooltip, Legend, ArcElement, BarElement, CategoryScale, LinearScale } from 'chart.js';
+import type { TooltipItem, ChartOptions } from 'chart.js';
 
-const Dashboard = () => {
-  return (
-    <div className="container mx-auto p-8">
-      <h1 className="text-3xl font-bold mb-6">Dashboard</h1>
-      
-      {/* Grid for dashboard cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* Total Applications Card */}
-        <div className="bg-white shadow-md rounded-lg p-6">
-          <h2 className="text-xl font-semibold mb-2">Total Applications</h2>
-          <p className="text-4xl font-bold text-blue-600">25</p>
-        </div>
-
-        {/* Pending Applications Card */}
-        <div className="bg-white shadow-md rounded-lg p-6">
-          <h2 className="text-xl font-semibold mb-2">Pending Applications</h2>
-          <p className="text-4xl font-bold text-yellow-500">10</p>
-        </div>
-
-        {/* Interviews Scheduled Card */}
-        <div className="bg-white shadow-md rounded-lg p-6">
-          <h2 className="text-xl font-semibold mb-2">Interviews Scheduled</h2>
-          <p className="text-4xl font-bold text-green-600">3</p>
-        </div>
-
-        {/* More cards can be added here */}
-      </div>
-
-      {/* Recent Applications Section */}
-      <div className="mt-10">
-        <h2 className="text-2xl font-bold mb-4">Recent Applications</h2>
-        <ul className="space-y-4">
-          <li className="bg-gray-100 p-4 rounded-lg shadow">
-            <h3 className="text-lg font-semibold">Frontend Developer at Company A</h3>
-            <p className="text-sm">Applied on: 2023-09-10 | Status: Pending</p>
-          </li>
-          <li className="bg-gray-100 p-4 rounded-lg shadow">
-            <h3 className="text-lg font-semibold">Backend Developer at Company B</h3>
-            <p className="text-sm">Applied on: 2023-09-08 | Status: Interview</p>
-          </li>
-          <li className="bg-gray-100 p-4 rounded-lg shadow">
-            <h3 className="text-lg font-semibold">Full Stack Developer at Company C</h3>
-            <p className="text-sm">Applied on: 2023-09-06 | Status: Rejected</p>
-          </li>
-        </ul>
-      </div>
-    </div>
-  );
-};
+// Register the components required for the Pie chart and Histogram
+ChartJS.register(Title, Tooltip, Legend, ArcElement, BarElement, CategoryScale, LinearScale);
 
 export default function Home() {
+  // Sample data for the Pie chart
+  const pieData = {
+    labels: ['Rejected', 'In Progress', 'Accepted', 'Up Coming'],
+    datasets: [
+      {
+        label: 'Sample Pie Chart',
+        data: [12, 19, 3, 5],
+        backgroundColor: [
+          '#CC0A0A',
+          '#861657',
+          '#3DB522',
+          '#2266B4',
+        ],
+        borderColor: [
+          '#000000',
+          '#000000',
+          '#000000',
+          '#000000',
+        ],
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  // Options for the Pie chart
+  const pieOptions: ChartOptions<'pie'> = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top' as const,
+        labels: {
+          color: '#000000', // Change legend text color to black
+        },
+      },
+      tooltip: {
+        callbacks: {
+          label: function (tooltipItem: TooltipItem<'pie'>) {
+            const value = tooltipItem.raw as number; // Cast to number
+            return value.toString(); // Show only the number
+          },
+        },
+        titleColor: '#000000',
+        bodyColor: '#FFFFFF', // Change tooltip body text color to white
+      },
+    },
+  };
+
+  // Sample data for the Histogram
+  const barData = {
+    labels: ['Cyber Security', 'Software Engineering', 'Dev Ops', 'Full Stack', 'ML', 'AI'],
+    datasets: [
+      {
+        label: 'Field Distribution',
+        data: [20, 30, 15, 25, 10, 5],
+        backgroundColor: [
+          '#6A5ACD', // SlateBlue
+          '#7B68EE', // MediumSlateBlue
+          '#87CEFA', // LightSkyBlue
+          '#4682B4', // SteelBlue
+          '#4169E1', // RoyalBlue
+          '#6495ED', // CornflowerBlue
+        ],
+        borderColor: '#000000',
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  // Options for the Histogram
+  const barOptions: ChartOptions<'bar'> = {
+    responsive: true,
+    plugins: {
+      legend: {
+        display: false, // Hide the legend
+      },
+      tooltip: {
+        callbacks: {
+          label: function (tooltipItem: TooltipItem<'bar'>) {
+            const value = tooltipItem.raw as number; // Cast to number
+            return value.toString(); // Show only the number
+          },
+        },
+        titleColor: '#000000',
+        bodyColor: '#FFFFFF', // Change tooltip body text color to white
+      },
+    },
+    scales: {
+      x: {
+        ticks: {
+          color: '#000000', // Change x-axis text color to black
+        },
+      },
+      y: {
+        ticks: {
+          color: '#000000', // Change y-axis text color to black
+        },
+      },
+    },
+  };
+
   return (
-    <main className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      <Dashboard />
-    </main>
+    <div className="flex justify-start items-center min-h-screen p-8 space-x-8">
+      <div style={{ width: '400px', height: '400px' }}>
+        <Pie data={pieData} options={pieOptions} />
+      </div>
+      <div style={{ width: '500px', height: '700px' }}>
+        <Bar data={barData} options={barOptions} />
+      </div>
+    </div>
   );
 }
