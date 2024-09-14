@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import React, { useState, useEffect } from "react";
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import { Dialog, DialogActions, DialogContent, DialogTitle, Button, TextField, Select, MenuItem, FormControl, InputLabel } from "@mui/material";
@@ -52,7 +52,6 @@ const Tracker = () => {
     }
   };
 
-
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
@@ -82,17 +81,19 @@ const Tracker = () => {
     } catch (error) {
       console.error("Error deleting application", error);
     }
+  };
+
   const buttonStyle = {
     display: 'block',
-    // margin: '0 auto',
     marginBottom: 16,
     marginTop: 20,
-    backgroundColor: '#000000', // Blue color (Material-UI primary blue)
+    backgroundColor: '#000000', // Black color
     color: '#fff', // White text color
     '&:hover': {
       backgroundColor: '#115293', // Darker blue on hover
-    }
-  }
+    },
+  };
+
   const h1Style = {
     fontFamily: '"Roboto", sans-serif',
     fontSize: '2.5rem',
@@ -202,10 +203,9 @@ const Tracker = () => {
   ];
 
   return (
-    <div style={{ height: '100%', width: '100%', paddingLeft: 80, paddingRight: 25, paddingTop:25 }}>
-      <div className="container mx-auto p-8" >
-      <h1 style={h1Style}> Application Tracker </h1>
-      <h2 style={h2Style}> Organize all your application history and information below!</h2>
+    <div style={{ height: '100%', width: '100%', paddingLeft: 80, paddingRight: 25, paddingTop: 25 }}>
+      <h1 style={h1Style}>Application Tracker</h1>
+      <h2 style={h2Style}>Organize all your application history and information below!</h2>
       <Button style={buttonStyle} onClick={handleOpen}>Add New Application</Button>
       <DataGrid
         rows={applications}
@@ -220,7 +220,7 @@ const Tracker = () => {
             backgroundColor: 'rgba(235, 235, 235, 0.7)',
           },
           '& .MuiDataGrid-columnHeaderTitle': {
-            fontWeight: 'bold', // Apply bold font weight to all column headers
+            fontWeight: 'bold',
           },
           '& .MuiDataGrid-cell': {
             borderRight: '1px solid rgba(224, 224, 224, 1)'
