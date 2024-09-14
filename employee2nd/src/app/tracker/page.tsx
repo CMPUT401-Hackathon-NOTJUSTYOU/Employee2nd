@@ -1,14 +1,34 @@
 "use client"
 import React, { useState } from 'react';
 import { DataGrid, GridActionsCellItem } from '@mui/x-data-grid';
-import { Dialog, DialogActions, DialogContent, DialogTitle, Button, TextField } from '@mui/material';
-
+import { Dialog, DialogActions, DialogContent, DialogTitle, Button, TextField, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import ConstructionIcon from '@mui/icons-material/Construction';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 const Tracker = () => {
   const [applications, setApplications] = useState([
-    { id: 1, title: "Software Engineer", company: "Tech Co", status: "Active", minPay: 50000, maxPay: 70000, location: "Remote", date: "2023-01-15" },
-    { id: 2, title: "Product Manager", company: "Startup Inc.", status: "Interviewing", minPay: 60000, maxPay: 90000, location: "New York", date: "2023-01-20" }
-  ]); // Pre-set data added here
+    {
+      id: 1,
+      title: "Software Engineer",
+      company: "Tech Co",
+      status: "Applied",
+      minPay: 50000,
+      maxPay: 70000,
+      location: "Remote",
+      date: "2023-01-15"
+    },
+    {
+      id: 2,
+      title: "Product Manager",
+      company: "Startup Inc.",
+      status: "In Progress",
+      minPay: 60000,
+      maxPay: 90000,
+      location: "New York",
+      date: "2023-01-20"
+    }
+  ]); // Preset data added here
   const [open, setOpen] = useState(false);
   const [newApp, setNewApp] = useState({
     title: '',
@@ -31,42 +51,38 @@ const Tracker = () => {
     const newApplication = { ...newApp, id: applications.length + 1 };
     setApplications([...applications, newApplication]);
     handleClose();
-    setNewApp({ title: '', company: '', status: '', minPay: '', maxPay: '', location: '', date: '' }); // Reset form
+    setNewApp({ title: '', company: '', status: '', minPay: '', maxPay: '', location: '', date: '' });
   };
 
   const deleteApplication = (id) => {
-    // First, filter out the application to be deleted
     const filteredApps = applications.filter(app => app.id !== id);
-    // Then, reassign IDs to ensure they remain sequential
     const updatedApps = filteredApps.map((app, index) => ({ ...app, id: index + 1 }));
     setApplications(updatedApps);
-};
+  };
 
-
-
-const columns = [
-  { field: 'id', headerName: 'ID', width: 70 },
-  { field: 'title', headerName: 'Title', width: 200 },
-  { field: 'company', headerName: 'Company Name', width: 200 },
-  { field: 'status', headerName: 'Status', width: 120 },
-  { field: 'minPay', headerName: 'Min Pay', type: 'number', width: 120 },
-  { field: 'maxPay', headerName: 'Max Pay', type: 'number', width: 120 },
-  { field: 'location', headerName: 'Location', width: 150 },
-  { field: 'date', headerName: 'Date Applied', width: 150 },
-  {
-    field: 'actions',
-    type: 'actions',
-    headerName: 'Actions',
-    width: 100,
-    getActions: (params) => [
-      <GridActionsCellItem
-        icon={<Button color="error">Delete</Button>}
-        label="Delete"
-        onClick={() => deleteApplication(params.id)}
-      />,
-    ],
-  },
-];
+  const columns = [
+    { field: 'id', headerName: 'ID', width: 70 },
+    { field: 'title', headerName: 'Title', width: 200 },
+    { field: 'company', headerName: 'Company Name', width: 200 },
+    { field: 'status', headerName: 'Status', width: 120 },
+    { field: 'minPay', headerName: 'Min Pay', type: 'number', width: 120 },
+    { field: 'maxPay', headerName: 'Max Pay', type: 'number', width: 120 },
+    { field: 'location', headerName: 'Location', width: 150 },
+    { field: 'date', headerName: 'Date Applied', width: 150 },
+    {
+      field: 'actions',
+      type: 'actions',
+      headerName: 'Actions',
+      width: 100,
+      getActions: (params) => [
+        <GridActionsCellItem
+          icon={<Button color="error">Delete</Button>}
+          label="Delete"
+          onClick={() => deleteApplication(params.id)}
+        />,
+      ],
+    },
+  ];
 
   return (
     <div style={{ height: 400, width: '100%' }}>
@@ -85,7 +101,21 @@ const columns = [
         <DialogContent>
           <TextField autoFocus margin="dense" name="title" label="Title" fullWidth variant="standard" value={newApp.title} onChange={handleChange}/>
           <TextField margin="dense" name="company" label="Company Name" fullWidth variant="standard" value={newApp.company} onChange={handleChange}/>
-          <TextField margin="dense" name="status" label="Status" fullWidth variant="standard" value={newApp.status} onChange={handleChange}/>
+          <FormControl fullWidth margin="dense">
+            <InputLabel id="status-label">Status</InputLabel>
+            <Select
+              labelId="status-label"
+              id="status-select"
+              name="status"
+              value={newApp.status}
+              label="Status"
+              onChange={handleChange}
+            >
+              <MenuItem value="Applied"><CheckCircleIcon style={{ color: 'green' }} /> Applied</MenuItem>
+              <MenuItem value="In Progress"><ConstructionIcon style={{ color: 'orange' }} /> In Progress</MenuItem>
+              <MenuItem value="Rejected"><CancelIcon style={{ color: 'red' }} /> Rejected</MenuItem>
+            </Select>
+          </FormControl>
           <TextField margin="dense" name="minPay" label="Min Pay" fullWidth variant="standard" type="number" value={newApp.minPay} onChange={handleChange}/>
           <TextField margin="dense" name="maxPay" label="Max Pay" fullWidth variant="standard" type="number" value={newApp.maxPay} onChange={handleChange}/>
           <TextField margin="dense" name="location" label="Location" fullWidth variant="standard" value={newApp.location} onChange={handleChange}/>
