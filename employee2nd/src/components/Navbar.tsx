@@ -13,7 +13,7 @@ const Navbar = () => {
   return (
     <nav className="bg-gradient-to-r from-blue-600 to-indigo-600 shadow-lg py-6 px-8">
       <div className="container mx-auto flex justify-between items-center">
-        <h1 className="text-white text-3xl font-bold tracking-wider">Job Tracker</h1>
+        <h1 className="text-white text-3xl font-bold tracking-wider">Employee2nd</h1>
         
         {/* Hamburger Icon for mobile */}
         <div className="lg:hidden">

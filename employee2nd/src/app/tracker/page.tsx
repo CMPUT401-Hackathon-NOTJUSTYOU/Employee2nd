@@ -157,7 +157,6 @@ const Tracker = () => {
   };
 
   const columns = [
-    { field: 'id', headerName: 'ID', width: 70, flex: 0.5 },
     {
       field: 'title',
       headerName: 'Title',
@@ -170,7 +169,7 @@ const Tracker = () => {
         </>
       ),
     },
-    { field: 'company', headerName: 'Company Name', width: 200, flex: 1},
+    { field: 'company', headerName: 'Company Name', width: 200, flex: 1 },
     {
       field: 'status',
       headerName: 'Status',
@@ -184,7 +183,7 @@ const Tracker = () => {
       ),
     },
     { field: 'minPay', headerName: 'Min Pay', type: 'number', align: 'left', headerAlign: 'left', flex: 1, renderCell: (params) => `$ ${params.value.toLocaleString()}` },
-    { field: 'maxPay', headerName: 'Max Pay', type: 'number', align: 'left', headerAlign: 'left' , flex: 1, renderCell: (params) => `$ ${params.value.toLocaleString()}` },
+    { field: 'maxPay', headerName: 'Max Pay', type: 'number', align: 'left', headerAlign: 'left', flex: 1, renderCell: (params) => `$ ${params.value.toLocaleString()}` },
     { field: 'location', headerName: 'Location', flex: 1 },
     { field: 'date', headerName: 'Date Applied', flex: 1 },
     {
